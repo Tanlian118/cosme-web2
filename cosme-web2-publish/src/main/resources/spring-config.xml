@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns="http://www.springframework.org/schema/beans"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd
+           http://www.springframework.org/schema/context
+           http://www.springframework.org/schema/context/spring-context.xsd
+           http://www.springframework.org/schema/mvc
+           http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+
+    <mvc:default-servlet-handler/>
+
+    <context:component-scan base-package="com.cosme.controller,
+                                          com.cosme.adapter,
+                                          com.cosme.advice,
+                                          com.cosme.service"/>
+
+    <bean id="conversionService" class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
+        <property name="converters">
+            <set>
+                <bean class="com.cosme.common.conver.DateConverter"/>
+            </set>
+        </property>
+    </bean>
+    <mvc:annotation-driven conversion-service="conversionService">
+        <mvc:message-converters register-defaults="true">
+            <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+                <property name="objectMapper">
+                    <bean class="org.springframework.http.converter.json.Jackson2ObjectMapperFactoryBean">
+                        <property name="serializationInclusion" value="NON_NULL"/>
+                        <property name="serializersByType">
+                            <map key-type="java.lang.Class">
+                            </map>
+                        </property>
+                    </bean>
+                </property>
+            </bean>
+        </mvc:message-converters>
+    </mvc:annotation-driven>
+
+   <mvc:interceptors>
+       <mvc:interceptor>
+           <mvc:mapping path="/cm/**/"/>
+           <bean class="com.cosme.common.interceptor.PermissionInterceptor"></bean>
+       </mvc:interceptor>
+   </mvc:interceptors>
+
+    <bean class="com.cosme.common.Appconfig">
+        <property name="loginFailTimes" value="5"/>
+        <property name="waitTimes" value="60"/>
+    </bean>
+</beans>

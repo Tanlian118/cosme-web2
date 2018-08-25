@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+       xsi:schemaLocation="
+           http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
+           http://www.springframework.org/schema/context
+           http://www.springframework.org/schema/context/spring-context-4.2.xsd
+           http://code.alibabatech.com/schema/dubbo
+           http://code.alibabatech.com/schema/dubbo/dubbo.xsd
+	   ">
+
+    <!--&lt;!&ndash;载入使用到的配置文件&ndash;&gt;-->
+    <!--<context:property-placeholder location="classpath:dubbo.properties" ignore-unresolvable="true"/>-->
+
+    <!--&lt;!&ndash;注册中心配置&ndash;&gt;-->
+    <!--<dubbo:registry id="registryConfig" port="${dubbo.registry.port}" address="${dubbo.zookeeper.registry.address}"/>-->
+    <!--&lt;!&ndash;应用信息配置&ndash;&gt;-->
+    <!--<dubbo:application name="cosme-web" owner="Tan" />-->
+    <!--&lt;!&ndash;服务提供者协议配置&ndash;&gt;-->
+    <!--<dubbo:protocol name="${ops.dubbo.protocol.name}" port="${ops.dubbo.protocol.port}" />-->
+    <!--&lt;!&ndash;服务提供者缺省值配置(全局配置负载均衡策略为轮询)&ndash;&gt;-->
+    <!--<dubbo:provider loadbalance="${ops.dubbo.service.loadbalance}" filter="DubboCatFilter,default" delay="-1"/>-->
+    <!--&lt;!&ndash;服务消费者缺省值配置&ndash;&gt;-->
+    <!--<dubbo:consumer check="false" timeout="5000" loadbalance="roundrobin" filter="DubboCatFilter,default"/>-->
+
+</beans>
