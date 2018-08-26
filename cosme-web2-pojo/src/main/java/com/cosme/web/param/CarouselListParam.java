@@ -13,6 +13,9 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class CarouselListParam extends BaseQueryParam {
 
-
+    /**
+     * 操作员id
+     */
+    String operaterId;
 
 }

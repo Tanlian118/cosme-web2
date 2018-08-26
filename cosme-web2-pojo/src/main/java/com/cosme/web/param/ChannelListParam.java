@@ -23,7 +23,7 @@ public class ChannelListParam extends BaseQueryParam {
     /**
      * 操作员id
      */
-    Set<String> operaterIds;
+    String operaterId;
 
     /**
      * 权重

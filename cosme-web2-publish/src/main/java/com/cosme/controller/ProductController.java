@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.Set;
 
 /**
@@ -21,7 +23,7 @@ import java.util.Set;
  **/
 @RestController
 @RequestMapping("cm/product")
-public class ProductController{
+public class ProductController extends BaseController{
 
     @Autowired
     private ProductAdapter productAdapter;
@@ -50,7 +52,9 @@ public class ProductController{
      * @return
      */
     @RequestMapping(value = "list", method = RequestMethod.GET)
-    public PageModel<ProductVO> list(ProductListParam productListParam) {
+    public PageModel<ProductVO> list(ProductListParam productListParam, HttpServletRequest request, HttpServletResponse response) {
+        String onlineUserId = getOnlineUserId(request, response);
+        productListParam.setOperaterId(onlineUserId);
         return productAdapter.list(productListParam);
     }
 }

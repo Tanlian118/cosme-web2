@@ -23,7 +23,7 @@ public class ProductListParam extends BaseQueryParam {
     /**
      * 操作员id
      */
-    Set<String> operaterIds;
+    String operaterId;
 
     /**
      * 频道id

@@ -93,7 +93,6 @@ public class LoginController {
     public ResultDTO<Void> register(@RequestBody UserAddRequest userAddRequest) {
         return userAdapter.addUser(userAddRequest);
     }
-
     /**
      * 退出登录
      *

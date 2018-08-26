@@ -31,23 +31,25 @@ public class CarouselAdapter {
     @Autowired
     private CarouselService carouselService;
 
-    public ResultDTO<Void> addOrUpdate(CarouselAddRequest carouselAddRequest) {
-
-        if (carouselAddRequest == null) {
+    public ResultDTO<Void> addOrUpdate(CarouselAddRequest addRequest) {
+        if (addRequest == null) {
             return ResultDTO.fail(StateCode.ILLEGAL_ARGS, "请输入轮播图信息");
         }
-        if (!StringUtils.hasText(carouselAddRequest.getCarouselImage())) {
+        if (!StringUtils.hasText(addRequest.getCarouselImage())) {
             return ResultDTO.fail(StateCode.ILLEGAL_ARGS, "请上传轮播图");
         }
-        if (carouselAddRequest.getWeight() < 0 || carouselAddRequest.getWeight() > 99) {
+        if (addRequest.getWeight() == null || addRequest.getWeight() < 0 || addRequest.getWeight() > 99) {
             return ResultDTO.fail(StateCode.ILLEGAL_ARGS, "权重需控制在0-99之间");
         }
-        if (carouselAddRequest.isNeedLinkUrl()) {
-            if (!StringUtils.hasText(carouselAddRequest.getLinkUrl())) {
+        if (addRequest.isNeedLinkUrl()) {
+            if (!StringUtils.hasText(addRequest.getLinkUrl())) {
                 return ResultDTO.fail(StateCode.ILLEGAL_ARGS, "请输入网页链接");
             }
         }
-        CarouselDTO carouselDTO = BaseTransformer.convert(carouselAddRequest, new CarouselDTO());
+        if (!addRequest.isNeedLinkUrl()) {
+            addRequest.setLinkUrl("");
+        }
+        CarouselDTO carouselDTO = BaseTransformer.convert(addRequest, new CarouselDTO());
         carouselService.saveOrUpdate(carouselDTO);
         return ResultDTO.successfy();
     }
@@ -73,10 +75,6 @@ public class CarouselAdapter {
         List<CarouselDTO> carouselDTOs = dtoPageModel.getData();
         int totalCount = dtoPageModel.getTotalCount();
         List<CarouselVO> carouselVOs = Lists2.transform(carouselDTOs, CarouselTransformer.DTO_TO_VO);
-
-
-
-
         return PageModel.build(carouselVOs, totalCount,listParam.getPage(),  pageSize);
     }
 }

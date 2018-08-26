@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.Set;
 
 /**
@@ -21,7 +23,7 @@ import java.util.Set;
  **/
 @RestController
 @RequestMapping("/cm/carousel")
-public class CarouselController {
+public class CarouselController extends BaseController {
 
     @Autowired
     private CarouselAdapter carouselAdapter;
@@ -48,12 +50,14 @@ public class CarouselController {
 
     /**
      * 查询轮播图信息
-     * @param carouselListParam
+     * @param listParam
      * @return
      */
     @RequestMapping(value = "list", method = RequestMethod.GET)
-    public PageModel<CarouselVO> list(CarouselListParam carouselListParam) {
-        return carouselAdapter.listCarousel(carouselListParam);
+    public PageModel<CarouselVO> list(CarouselListParam listParam, HttpServletRequest request, HttpServletResponse response) {
+        String onlineUserId = getOnlineUserId(request, response);
+        listParam.setOperaterId(onlineUserId);
+        return carouselAdapter.listCarousel(listParam);
     }
 
 }

@@ -33,6 +33,16 @@ public class NewsAdapter {
 
 
     public ResultDTO<Void> addOrUpdateNews(NewsAddRequest newsRequest) {
+        ResultDTO<Void> resultDTO = checkParam(newsRequest);
+        if (!resultDTO.isSuccess()) {
+            return resultDTO;
+        }
+        NewsDTO newsDTO = BaseTransformer.convert(newsRequest, new NewsDTO());
+        newsService.addOrUpdateNews(newsDTO);
+        return ResultDTO.successfy();
+    }
+
+    private ResultDTO<Void> checkParam(NewsAddRequest newsRequest) {
         if (newsRequest == null) {
             return ResultDTO.fail(StateCode.ILLEGAL_ARGS, "请输入相关信息");
         }
@@ -60,10 +70,7 @@ public class NewsAdapter {
         if (newsRequest.getReleaseTime() == null) {
             return ResultDTO.fail(StateCode.ILLEGAL_ARGS, "请选择发布时间");
         }
-        NewsDTO newsDTO = BaseTransformer.convert(newsRequest, new NewsDTO());
-        newsService.addOrUpdateNews(newsDTO);
         return ResultDTO.successfy();
-
     }
 
     public ResultDTO<Void> deleteNews(Set<Integer> newsIds) {

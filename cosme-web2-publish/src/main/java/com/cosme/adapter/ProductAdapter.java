@@ -38,7 +38,6 @@ public class ProductAdapter {
        if (resultDTO.isSuccess())  {
            return resultDTO;
        }
-
         ProductDTO productDTO = BaseTransformer.convert(productRequest, new ProductDTO());
         productService.addOrUpdateProduct(productDTO);
         return ResultDTO.successfy();
@@ -99,16 +98,17 @@ public class ProductAdapter {
     }
 
     private ProductQueryParam getProductQueryParam(ProductListParam listParam) {
-        ProductQueryParam productQueryParam = new ProductQueryParam();
-        productQueryParam.setChannelIds(listParam.getChannelIds());
-        productQueryParam.setProductTitle(listParam.getProductTitle());
-        productQueryParam.setNeedPagination(true);
-        int pageSize = FixedPageSizeEnum.getByPageSize(listParam.getPageSize()).getPageSize();
-        productQueryParam.setPageSize(pageSize);
-        productQueryParam.setPage(listParam.getPage() * pageSize);
+        ProductQueryParam queryParam = new ProductQueryParam();
+        queryParam.setChannelIds(listParam.getChannelIds());
+        queryParam.setProductTitle(listParam.getProductTitle());
+        queryParam.setNeedPagination(true);
+        Integer pageSize = listParam.getPageSize();
+        int fixPageSize = FixedPageSizeEnum.getByPageSize(pageSize).getPageSize();
+        queryParam.setPageSize(pageSize);
+        queryParam.setPage(listParam.getPage() * fixPageSize);
         ProductFillingParam fillingParam = new ProductFillingParam();
         fillingParam.setChannelQueryParam(new ChannelQueryParam());
-        productQueryParam.setFillingParam(fillingParam);
-        return productQueryParam;
+        queryParam.setFillingParam(fillingParam);
+        return queryParam;
     }
 }

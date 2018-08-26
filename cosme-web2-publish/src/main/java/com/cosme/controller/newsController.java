@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.Set;
 
 /**
@@ -21,7 +23,7 @@ import java.util.Set;
  **/
 @RestController
 @RequestMapping("/cm/news")
-public class newsController {
+public class newsController extends BaseController{
 
     @Autowired
     private NewsAdapter newsAdapter;
@@ -52,7 +54,8 @@ public class newsController {
      * @return
      */
     @RequestMapping(value = "list", method = RequestMethod.GET)
-    public PageModel<NewsVO> list(NewsListParam newsListParam) {
+    public PageModel<NewsVO> list(NewsListParam newsListParam, HttpServletRequest request, HttpServletResponse response) {
+        newsListParam.setOperaterId(getOnlineUserId(request, response));
         return newsAdapter.listNews(newsListParam);
     }
 

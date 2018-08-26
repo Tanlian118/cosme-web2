@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.Set;
 
 /**
@@ -21,7 +23,7 @@ import java.util.Set;
  **/
 @RestController
 @RequestMapping("/cm/channel")
-public class ChannelController {
+public class ChannelController extends BaseController{
 
     @Autowired
     private ChannelAdapter channelAdapter;
@@ -52,7 +54,9 @@ public class ChannelController {
      * @return
      */
     @RequestMapping(value = "list", method = RequestMethod.GET)
-    public PageModel<ChannelVO> list(ChannelListParam channellListParam) {
+    public PageModel<ChannelVO> list(ChannelListParam channellListParam, HttpServletRequest request, HttpServletResponse response) {
+        String onlineUserId = getOnlineUserId(request, response);
+        channellListParam.setOperaterId(onlineUserId);
         return channelAdapter.list(channellListParam);
     }
 }
