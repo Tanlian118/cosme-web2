@@ -44,4 +44,9 @@ public class CarouselVO {
      */
     Date updateTime;
 
+    /**
+     * 操作员姓名
+     */
+    String username;
+
 }

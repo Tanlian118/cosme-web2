@@ -36,7 +36,6 @@ public class ChannelServiceImpl implements ChannelService {
     @Autowired
     private ProductService productService;
 
-
     @Override
     public ResultDTO<Void> addOrUpdateChannel(ChannelDTO channelDTO) {
         ChannelEntity channelEntity = ChannelTransformer.DTO_TO_ENTITY.apply(channelDTO);

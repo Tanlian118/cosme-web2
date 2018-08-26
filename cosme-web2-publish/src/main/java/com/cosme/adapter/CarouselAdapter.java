@@ -4,13 +4,16 @@ import com.cosme.common.BaseTransformer;
 import com.cosme.common.PageModel;
 import com.cosme.common.guava2.Lists2;
 import com.cosme.service.CarouselService;
+import com.cosme.service.UserService;
 import com.cosme.transformers.CarouselTransformer;
 import com.cosme.web.common.FixedPageSizeEnum;
 import com.cosme.web.common.ResultDTO;
 import com.cosme.web.common.StateCode;
 import com.cosme.web.dto.CarouselDTO;
+import com.cosme.web.dto.UserDTO;
 import com.cosme.web.param.CarouselListParam;
 import com.cosme.web.queryParam.CarouselQueryParam;
+import com.cosme.web.queryParam.UserQueryParam;
 import com.cosme.web.request.CarouselAddRequest;
 import com.cosme.web.vo.CarouselVO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +30,9 @@ import java.util.Set;
  **/
 @Service("carouselAdapter")
 public class CarouselAdapter {
+
+    @Autowired
+    private UserService userService;
 
     @Autowired
     private CarouselService carouselService;
@@ -75,6 +81,9 @@ public class CarouselAdapter {
         List<CarouselDTO> carouselDTOs = dtoPageModel.getData();
         int totalCount = dtoPageModel.getTotalCount();
         List<CarouselVO> carouselVOs = Lists2.transform(carouselDTOs, CarouselTransformer.DTO_TO_VO);
+        UserQueryParam userQueryParam = new UserQueryParam();
+        userQueryParam.setUserId(listParam.getOperaterId());
+        UserDTO userDTO = userService.queryUserByParam(userQueryParam);
         return PageModel.build(carouselVOs, totalCount,listParam.getPage(),  pageSize);
     }
 }

@@ -40,4 +40,10 @@ public class CarouselDTO {
      * 更新时间
      */
     Date updateTime;
+
+    /**
+     * 操作员姓名
+     */
+    String username;
+
 }
