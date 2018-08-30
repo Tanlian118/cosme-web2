@@ -84,6 +84,7 @@ public class CarouselAdapter {
         UserQueryParam userQueryParam = new UserQueryParam();
         userQueryParam.setUserId(listParam.getOperaterId());
         UserDTO userDTO = userService.queryUserByParam(userQueryParam);
+        carouselVOs.stream().forEach(v->v.setUsername(userDTO.getUsername()));
         return PageModel.build(carouselVOs, totalCount,listParam.getPage(),  pageSize);
     }
 }
